@@ -1,3 +1,4 @@
+import plotly.express as px
 import streamlit as st
 import pandas as pd
 
@@ -71,6 +72,45 @@ c4.metric("Cash Flow", "348k€", "+22k€")
 
 st.divider()
 
+# ---------- CASH FLOW ----------
+st.subheader("📈 Cash Flow")
+
+cashflow = pd.DataFrame({
+    "Mois": [
+        "Jan",
+        "Fév",
+        "Mars",
+        "Avr",
+        "Mai",
+        "Juin"
+    ],
+    "Montant": [
+        180000,
+        210000,
+        195000,
+        248000,
+        290000,
+        348000
+    ]
+})
+
+fig = px.line(
+    cashflow,
+    x="Mois",
+    y="Montant",
+    markers=True
+)
+
+fig.update_layout(
+    height=350,
+    margin=dict(l=0, r=0, t=0, b=0)
+)
+
+st.plotly_chart(
+    fig,
+    use_container_width=True
+)
+
 
 # ---------- PIPELINE ----------
 st.subheader("Pipeline opérationnel")
@@ -129,6 +169,9 @@ with left:
 with right:
 
     st.subheader("💶 Facturation")
+    st.success("FAC-031 • 12 800€ • Payée")
+    st.warning("FAC-032 • 9 400€ • En attente")
+    st.info("FAC-033 • 18 200€ • Validation")
 
     billing = pd.DataFrame({
         "Facture":[
@@ -153,3 +196,25 @@ with right:
         hide_index=True,
         use_container_width=True
     )
+
+
+
+# ---------- ACTIVITY ----------
+st.divider()
+
+st.subheader("⚠ Alertes")
+
+st.error("CEE-2041 → Attestation sur l'honneur manquante")
+st.warning("CEE-2042 → Photos chantier manquantes")
+st.info("CEE-2043 → Contrôle en cours")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    st.success("✅ CEE-2041 validé")
+
+with c2:
+    st.info("💶 FAC-031 payée")
+
+with c3:
+    st.warning("⚠ AH manquante")
